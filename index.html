@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAGAKURE PROGRAMMING塾 2025.12.20 - Antigravityではじめるエージェントコーディング</title>
+    <style>
+        :root {
+            /* カラーパレット: hero.pngから抽出 */
+            --color-base-cream: #F5F3E8;
+            --color-base-beige: #E8E5D8;
+            --color-bg-blue-grey: #B8C5D6;
+            --color-text-dark: #3A3A3A;
+            --color-text-charcoal: #4A4A4A;
+            --color-accent-brown: #A67C52;
+            --color-accent-blue: #7BA5C8;
+            --color-accent-green: #8FB88F;
+            --color-accent-yellow: #F4D58D;
+            --color-warning-coral: #E89B8E;
+            
+            /* レイアウト */
+            --slide-max-height: 800px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', 'メイリオ', Meiryo, sans-serif;
+            background: var(--color-base-cream);
+            color: var(--color-text-dark);
+            line-height: 1.6;
+        }
+        
+        /* スライドコンテナ */
+        .slide-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* スライド */
+        .slide {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            overflow: hidden;
+            max-height: var(--slide-max-height);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* ヘッダー */
+        .slide-header {
+            background: linear-gradient(135deg, var(--color-accent-brown), var(--color-accent-blue));
+            color: white;
+            padding: 12px 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* スライドコンテンツ */
+        .slide-content {
+            padding: 40px 50px;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        /* タイトルスライド */
+        .slide-title .hero-section {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            background: url('images/hero.png') center/cover no-repeat;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .slide-title h1 {
+            font-size: 2.5rem;
+            color: var(--color-accent-brown);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .slide-title .event-name {
+            font-size: 1.3rem;
+            color: var(--color-accent-blue);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .slide-title .subtitle {
+            font-size: 1.4rem;
+            color: var(--color-text-charcoal);
+            font-weight: 500;
+        }
+        
+        /* 見出し */
+        h2 {
+            font-size: 2rem;
+            color: var(--color-accent-brown);
+            margin-bottom: 25px;
+            border-bottom: 3px solid var(--color-accent-yellow);
+            padding-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        h3 {
+            font-size: 1.4rem;
+            color: var(--color-accent-blue);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        /* テキスト */
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        /* リスト */
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+        
+        /* 強調ボックス */
+        .highlight-box {
+            background: var(--color-base-beige);
+            border-left: 5px solid var(--color-accent-brown);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .warning-box {
+            background: #FFF5F5;
+            border-left: 5px solid var(--color-warning-coral);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .info-box {
+            background: #F0F8FF;
+            border-left: 5px solid var(--color-accent-blue);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        /* アイコン画像 */
+        .icon-img {
+            max-height: 120px;
+            float: right;
+            margin: 0 0 15px 15px;
+        }
+        
+        /* タスク例カード */
+        .task-card {
+            background: var(--color-base-beige);
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 4px solid var(--color-accent-green);
+        }
+        
+        .task-card h4 {
+            color: var(--color-accent-brown);
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+        
+        /* 最終スライドの特別スタイル */
+        .finale-message {
+            background: linear-gradient(135deg, var(--color-accent-yellow), var(--color-accent-green));
+            color: var(--color-text-dark);
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .finale-message .emoji {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .finale-message h3 {
+            color: var(--color-text-dark);
+            font-size: 1.8rem;
+            margin: 0 0 10px 0;
+        }
+        
+        .finale-message p {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        /* ナビゲーション */
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .nav-btn {
+            background: var(--color-accent-brown);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            background: var(--color-accent-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* スライドカウンター */
+        .slide-counter {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            font-weight: 600;
+            color: var(--color-accent-brown);
+            z-index: 1000;
+        }
+        
+        /* コード表示 */
+        code {
+            background: var(--color-base-beige);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.95em;
+        }
+        
+        /* 2カラムレイアウト */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        /* リンク */
+        a {
+            color: var(--color-accent-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .slide-content {
+                padding: 30px 25px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.6rem;
+            }
+            
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .navigation {
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .slide-counter {
+                bottom: 15px;
+                left: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <!-- スライド1: タイトル -->
+        <div class="slide slide-title" data-slide="1">
+            <div class="slide-header">HAGAKURE PROGRAMMING塾 2025.12.20</div>
+            <div class="slide-content">
+                <div class="hero-section"></div>
+                <div class="event-name">HAGAKURE PROGRAMMING塾 2025.12.20</div>
+                <h1>Antigravityではじめる<br>エージェントコーディング</h1>
+                <p class="subtitle">かつてない「ペアプログラミング」体験へ</p>
+            </div>
+        </div>
+
+        <!-- スライド2: エージェントコーディングとは？ -->
+        <div class="slide" data-slide="2">
+            <div class="slide-header">HAGAKURE PROGRAMMING塾 2025.12.20</div>
+            <div class="slide-content">
+                <img src="images/voice-ninja1.png" alt="Ninja" class="icon-img">
+                <h2>エージェントコーディングとは？</h2>
+                
+                <div class="two-columns">
+                    <div>
+                        <h3>従来のアプローチ</h3>
+                        <div class="highlight-box">
+                            <p><strong>Autocomplete（自動補完）</strong></p>
+                            <p>人間が書いて、AIが補完する</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3>これからのアプローチ</h3>
+                        <div class="highlight-box">
+                            <p><strong>Agentic（エージェント型）</strong></p>
+                            <p>AIが「エージェント」としてタスクを自律的に遂行する</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 30px; font-size: 1.2rem; text-align: center;">
+                    影のように働く有能なアシスタント<br>
+                    それがエージェントコーディングです
+                </p>
+            </div>
+        </div>
+
+        <!-- スライド3: Antigravityの紹介 -->
+        <div class="slide" data-slide="3">
+            <div class="slide-header">HAGAKURE PROGRAMMING塾 2025.12.20</div>
+            <div class="slide-content">
+                <img src="images/voice-samurai.png" alt="Samurai" class="icon-img">
+                <h2>Antigravityの紹介</h2>
+                
+                <h3>Antigravityとは？</h3>
+                <p>Google DeepMind発の先進的なエージェントコーディングツール</p>
+                
+                <h3>何ができるのか？</h3>
+                <ul>
+                    <li><strong>全ファイル操作</strong> - プロジェクト全体を把握し、複数ファイルを横断して編集</li>
+                    <li><strong>ターミナル実行</strong> - コマンドを実行し、ビルド・テスト・デプロイまで自動化</li>
+                    <li><strong>ブラウザ操作</strong> - Web検索やドキュメント参照も可能</li>
+                    <li><strong>自己修正</strong> - エラーを検知して自動的に修正を試みる</li>
+                </ul>
+                
+                <div class="info-box">
+                    <p><strong>💡 ポイント</strong><br>
+                    単なるコード補完ではなく、タスク全体を理解して遂行する「同僚」のような存在です。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- スライド4: 準備とセットアップ -->
+        <div class="slide" data-slide="4">
+            <div class="slide-header">HAGAKURE PROGRAMMING塾 2025.12.20</div>
+            <div class="slide-content">
+                <h2>準備とセットアップ</h2>
+                
+                <h3>必要な環境（システム要件）</h3>
+                <ul>
+                    <li><strong>macOS:</strong> macOS 12 (Monterey) 以降</li>
+                    <li><strong>Windows:</strong> Windows 10 (64bit) 以降</li>
+                    <li><strong>Linux:</strong> Ubuntu 20.04 以降など</li>
+                    <li>インターネット接続</li>
+                    <li>Google アカウント</li>
+                </ul>
+                
+                <h3>Antigravityの導入</h3>
+                <div class="highlight-box">
+                    <p><strong>ダウンロード:</strong></p>
+                    <p><a href="https://antigravity.google/download" target="_blank">https://antigravity.google/download</a></p>
+                </div>
+                
+                <h3>ワークスペースの設定</h3>
+                <ol>
+                    <li>エディタにAntigravityをインストール</li>
+                    <li>プロジェクトフォルダを開く</li>
+                    <li>Antigravityを起動</li>
+                    <li>初回認証を完了</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- スライド5: リスクと安全対策 -->
+        <div class="slide" data-slide="5">
+            <div class="slide-header">HAGAKURE PROGRAMMING塾 2025.12.20</div>
+            <div class="slide-content">
+                <h2>⚠️ 【重要】リスクと安全対策</h2>
+                
+                <div class="warning-box">
+                    <h3>実際にあった事例</h3>
+                    <p><strong>「AI誤処理でHDD内データ全消去」</strong></p>
+                    <p>ユーザー: 「すべてのファイルを消して」<br>
+                    AI: 「分かりました」→ <strong>全消去実行</strong></p>
+                    <p style="margin-top: 15px;">
+                        <a href="https://www.smartnews.com/ja-jp/article/4887717334648626259" target="_blank" style="color: var(--color-warning-coral); text-decoration: underline;">
+                            📰 ニュース記事を読む（SmartNews）
+                        </a>
+                    </p>
+                </div>
+                
+                <h3>教訓</h3>
+                <ul>
+                    <li>AIは強力な権限を持っている</li>
+                    <li>指示は具体的かつ慎重に</li>
+                    <li>破壊的なコマンド（削除、上書き）の前には必ず確認を</li>
+                </ul>
+                
+                <h3>Antigravityの安全機能</h3>
+                <div class="info-box">
+                    <ul>
+                        <li><strong>承認プロセス (User Approval)</strong> の徹底</li>
+                        <li><strong>SafeToAutoRun</strong> の適切な運用</li>
+                        <li>危険な操作は必ず確認を求める</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- スライド6: カスタマイズ設定 -->
+        <div class="slide" data-slide="6">
+            <div class="slide-header">HAGAKURE PROGRAMMING塾 2025.12.20</div>
+            <div class="slide-content">
+                <img src="images/voice-ninja2.png" alt="Ninja" class="icon-img">
+                <h2>カスタマイズ設定: あなた好みのエージェントに</h2>
+                
+                <h3>回答を日本語にしてもらう方法</h3>
+                <div class="highlight-box">
+                    <ol>
+                        <li>Agentパネル右上の「<strong>…</strong>」をクリック</li>
+                        <li>「<strong>Customizations → Rules → +Global</strong>」を選択</li>
+                        <li>「<strong>日本語で回答してください</strong>」と設定</li>
+                    </ol>
+                </div>
+                
+                <div class="info-box">
+                    <p><strong>💡 Global設定の活用</strong></p>
+                    <p>Global設定で自分用のルールを追加できます。<br>
+                    一度設定すれば、すべてのプロジェクトで有効になります。</p>
+                </div>
+                
+                <p style="margin-top: 25px; font-size: 1.1rem;">
+                    細やかな設定で、あなたの開発スタイルに合わせたエージェントに育てましょう。
+                </p>
+            </div>
+        </div>
+
+        <!-- スライド7: 基本ワークフロー -->
+        <div class="slide" data-slide="7">
+            <div class="slide-header">HAGAKURE PROGRAMMING塾 2025.12.20</div>
+            <div class="slide-content">
+                <h2>基本ワークフロー: 3つのモード</h2>
+                
+                <h3>The Create Loop</h3>
+                <p>Antigravityは以下の3つのフェーズでタスクを遂行します：</p>
+                
+                <div class="task-card">
+                    <h4>1️⃣ Planning（計画と設計）</h4>
+                    <p>タスクを理解し、実装計画を立てる</p>
+                    <p><code>implementation_plan.md</code> に計画を記録</p>
+                </div>
+                
+                <div class="task-card">
+                    <h4>2️⃣ Execution（実装と変更）</h4>
+                    <p>計画に基づいてコードを実装・修正</p>
+                    <p>ファイルの作成・編集・削除を実行</p>
+                </div>
+                
+                <div class="task-card">
+                    <h4>3️⃣ Verification（検証とテスト）</h4>
+                    <p>実装結果を検証し、動作確認</p>
+                    <p><code>walkthrough.md</code> に検証結果を記録</p>
+                </div>
+                
+                <p style="margin-top: 25px; text-align: center; font-size: 1.1rem;">
+                    このループを繰り返すことで、高品質な成果物が生まれます
+                </p>
+            </div>
+        </div>
+
+        <!-- スライド8: アーティファクト -->
+        <div class="slide" data-slide="8">
+            <div class="slide-header">HAGAKURE PROGRAMMING塾 2025.12.20</div>
+            <div class="slide-content">
+                <h2>重要な概念: アーティファクト</h2>
+                
+                <p style="font-size: 1.2rem; margin-bottom: 25px;">
+                    エージェントとの「共通言語」としてのドキュメント
+                </p>
+                
+                <div class="highlight-box">
+                    <h3>📋 task.md</h3>
+                    <p><strong>進捗管理の要</strong></p>
+                    <ul>
+                        <li>現在のタスクの状態を記録</li>
+                        <li>完了した項目、残っている項目を追跡</li>
+                        <li>次にやるべきことが明確になる</li>
+                    </ul>
+                </div>
+                
+                <div class="highlight-box">
+                    <h3>📐 implementation_plan.md</h3>
+                    <p><strong>設計図</strong></p>
+                    <ul>
+                        <li>実装の全体像を記述</li>
+                        <li>ファイル構成、モジュール設計</li>
+                        <li>人間とエージェントの認識を合わせる</li>
+                    </ul>
+                </div>
+                
+                <div class="info-box">
+                    <p><strong>💡 ポイント</strong><br>
+                    これらのドキュメントを読めば、プロジェクトの状態が一目でわかります。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- スライド9: ハンズオン -->
+        <div class="slide" data-slide="9">
+            <div class="slide-header">HAGAKURE PROGRAMMING塾 2025.12.20</div>
+            <div class="slide-content">
+                <h2>ハンズオン: Hello World</h2>
+                
+                <div class="info-box">
+                    <p><strong>ダウンロードがまだの方は:</strong></p>
+                    <p><a href="https://antigravity.google/download" target="_blank">https://antigravity.google/download</a></p>
+                </div>
+                
+                <h3>最初のタスクを依頼してみよう</h3>
+                <div class="highlight-box" style="font-size: 1.2rem; padding: 25px;">
+                    <p style="margin-bottom: 15px;"><strong>エージェントに依頼:</strong></p>
+                    <p style="background: white; padding: 15px; border-radius: 6px; font-family: 'Consolas', monospace;">
+                        「HTMLでHello Worldを表示するページを作って」
+                    </p>
+                </div>
+                
+                <h3>体験できること</h3>
+                <ul>
+                    <li>✅ ファイル作成</li>
+                    <li>✅ 基本的なHTML構造の生成</li>
+                    <li>✅ ブラウザで確認</li>
+                </ul>
+                
+                <p style="margin-top: 30px; font-size: 1.2rem; text-align: center; font-weight: 600;">
+                    → エージェントとの最初の対話を体験しましょう！
+                </p>
+            </div>
+        </div>
+
+        <!-- スライド10: もっと試してみよう -->
+        <div class="slide" data-slide="10">
+            <div class="slide-header">HAGAKURE PROGRAMMING塾 2025.12.20</div>
+            <div class="slide-content">
+                <h2>もっと試してみよう: 次のステップ</h2>
+                
+                <p style="font-size: 1.1rem; margin-bottom: 25px;">慣れてきたら、こんなタスクにも挑戦：</p>
+                
+                <div class="task-card">
+                    <h4>📝 シンプル系</h4>
+                    <p>「カウンターアプリを作って。+ボタンと-ボタンで数を増減」</p>
+                </div>
+                
+                <div class="task-card">
+                    <h4>🎨 デザイン系</h4>
+                    <p>「和風デザインの都道府県クイズアプリを作って」</p>
+                </div>
+                
+                <div class="task-card">
+                    <h4>📊 データ処理系</h4>
+                    <p>「CSVファイルから表を生成してHTMLで表示して」</p>
+                </div>
+                
+                <div class="task-card">
+                    <h4>🔧 リファクタリング系</h4>
+                    <p>「このコードを読みやすくリファクタリングして」</p>
+                </div>
+                
+                <p style="margin-top: 30px; font-size: 1.3rem; text-align: center; font-weight: 600; color: var(--color-accent-brown);">
+                    → あなたのアイデアをエージェントに伝えてみよう！
+                </p>
+            </div>
+        </div>
+
+        <!-- スライド11: ブラウザ拡張機能 -->
+        <div class="slide" data-slide="11">
+            <div class="slide-header">HAGAKURE PROGRAMMING塾 2025.12.20</div>
+            <div class="slide-content">
+                <h2>推奨環境: ブラウザ拡張機能</h2>
+                
+                <h3>Chrome Extension</h3>
+                <div class="highlight-box">
+                    <p><strong>Antigravity Browser Extension</strong></p>
+                    <p>Chrome Web Storeからインストール可能</p>
+                    <p style="margin-top: 15px;">
+                        <a href="https://chromewebstore.google.com/detail/antigravity-browser-exten/eeijfnjmjelapkebgockoeaadonbchdd" target="_blank">
+                            🔗 Chrome Web Storeでインストール
+                        </a>
+                    </p>
+                </div>
+                
+                <h3>できるようになること</h3>
+                <ul>
+                    <li>ブラウザ操作をよりスムーズに</li>
+                    <li>Web検索結果を直接エージェントに渡せる</li>
+                    <li>オンラインドキュメントの参照が簡単に</li>
+                    <li>デバッグ時のブラウザ情報の取得</li>
+                </ul>
+                
+                <div class="info-box">
+                    <p><strong>💡 Tips</strong><br>
+                    拡張機能をインストールすることで、エージェントの活動範囲が広がります。<br>
+                    より複雑なタスクにも対応できるようになります。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- スライド12: まとめ -->
+        <div class="slide" data-slide="12">
+            <div class="slide-header">HAGAKURE PROGRAMMING塾 2025.12.20</div>
+            <div class="slide-content">
+                <img src="images/machi-musume.png" alt="Machi Musume" class="icon-img">
+                <h2>まとめとBest Practices</h2>
+                
+                <div class="highlight-box">
+                    <h3>✨ 心に留めておきたいこと</h3>
+                    <ul>
+                        <li>エージェントは「魔法」ではなく「優秀な同僚」</li>
+                        <li>明確な指示とレビューが重要</li>
+                        <li>失敗から学び、改善を重ねる</li>
+                    </ul>
+                </div>
+                
+                <p style="margin: 30px 0; font-size: 1.3rem; text-align: center; font-weight: 600; color: var(--color-accent-brown);">
+                    Enjoy Agentic Coding!
+                </p>
+                
+                <div class="finale-message">
+                    <div class="emoji">🍲</div>
+                    <h3>Let's Share!</h3>
+                    <p>お鍋を食べながら、<br>今日の成果物を見せ合いましょう！</p>
+                    <p style="margin-top: 15px; font-size: 1.1rem; font-weight: 400;">
+                        コミュニティでの学びと交流を楽しもう
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- スライドカウンター -->
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">12</span>
+    </div>
+
+    <!-- ナビゲーション -->
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" onclick="previousSlide()">◀ 前へ</button>
+        <button class="nav-btn" id="nextBtn" onclick="nextSlide()">次へ ▶</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 12;
+        
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+            showSlide(1);
+            updateCounter();
+        });
+        
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            
+            if (n > totalSlides) {
+                currentSlide = totalSlides;
+            } else if (n < 1) {
+                currentSlide = 1;
+            } else {
+                currentSlide = n;
+            }
+            
+            // すべてのスライドを非表示
+            slides.forEach(slide => {
+                slide.style.display = 'none';
+            });
+            
+            // 現在のスライドを表示
+            const currentSlideElement = document.querySelector(`[data-slide="${currentSlide}"]`);
+            if (currentSlideElement) {
+                currentSlideElement.style.display = 'flex';
+                currentSlideElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            
+            updateCounter();
+            updateButtons();
+        }
+        
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+        
+        function previousSlide() {
+            showSlide(currentSlide - 1);
+        }
+        
+        function updateCounter() {
+            document.getElementById('currentSlide').textContent = currentSlide;
+            document.getElementById('totalSlides').textContent = totalSlides;
+        }
+        
+        function updateButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.disabled = (currentSlide === 1);
+            nextBtn.disabled = (currentSlide === totalSlides);
+        }
+        
+        // キーボードナビゲーション
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === ' ') {
+                event.preventDefault();
+                nextSlide();
+            } else if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                previousSlide();
+            }
+        });
+    </script>
+</body>
+</html>
+
